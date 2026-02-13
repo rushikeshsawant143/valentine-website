@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Will You Be My Valentine? 💖</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ff4e8a, #ff9a9e);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Card */
+.card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+    width: 90%;
+    max-width: 350px;
+    position: relative;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+h1 {
+    color: #ff4e8a;
+    font-size: 1.8rem;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 25px;
+    position: relative;
+    height: 120px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    position: absolute;
+}
+
+#yesBtn {
+    background: #ff4e8a;
+    color: white;
+    left: 20%;
+}
+
+#yesBtn:hover {
+    transform: scale(1.1);
+    background: #ff1e63;
+}
+
+#noBtn {
+    background: #888;
+    color: white;
+    left: 60%;
+}
+
+/* Ring animation */
+.ring {
+    font-size: 80px;
+    position: absolute;
+    top: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+}
+
+.show-ring {
+    animation: dropRing 2s forwards;
+}
+
+@keyframes dropRing {
+    0% { top: -100px; opacity: 0; }
+    50% { opacity: 1; }
+    100% { top: 50px; opacity: 1; }
+}
+
+/* Floating hearts */
+.heart {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: red;
+    transform: rotate(45deg);
+    animation: float 6s linear infinite;
+}
+
+.heart::before,
+.heart::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: red;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.heart::before { top: -10px; left: 0; }
+.heart::after { left: -10px; top: 0; }
+
+@keyframes float {
+    0% { transform: translateY(100vh) rotate(45deg); opacity: 1; }
+    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+}
+
+/* Confetti */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    top: 0;
+    opacity: 0.8;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
+</audio>
+
+<div class="card">
+    <div class="ring" id="ring">💍</div>
+    <h1>Will You Be My Valentine? 💖</h1>
+
+    <div class="buttons">
+        <button id="yesBtn">Yes 💘</button>
+        <button id="noBtn">No 😢</button>
+    </div>
+</div>
+
+<script>
+const noBtn = document.getElementById("noBtn");
+const yesBtn = document.getElementById("yesBtn");
+const ring = document.getElementById("ring");
+
+/* Move No Button (Desktop + Mobile) */
+function moveNoButton() {
+    const card = document.querySelector(".card");
+    const maxX = card.clientWidth - noBtn.offsetWidth;
+    const maxY = card.clientHeight - noBtn.offsetHeight;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+/* Yes Click Event */
+yesBtn.addEventListener("click", function() {
+
+    // Ring animation
+    ring.classList.add("show-ring");
+
+    // Confetti
+    for (let i = 0; i < 80; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * 100 + "vw";
+        confetti.style.backgroundColor =
+            ["#ff4e8a", "#ffd700", "#ff1e63", "#ff9a9e"][Math.floor(Math.random()*4)];
+        confetti.style.animationDuration = (Math.random()*2 + 2) + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => confetti.remove(), 3000);
+    }
+
+    setTimeout(() => {
+        alert("Yessss!!! 💖 You just made me the happiest person alive! 💍✨");
+    }, 1500);
+});
+
+/* Floating hearts */
+function createHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+    document.body.appendChild(heart);
+
+    setTimeout(() => {
+        heart.remove();
+    }, 6000);
+}
+
+setInterval(createHeart, 300);
+</script>
+
+</body>
+</html>
