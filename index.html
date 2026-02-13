@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Will You Be My Valentine? 💖</title>
+<title>Neha 💖 Valentine</title>
 
 <style>
 body {
@@ -12,28 +12,35 @@ body {
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(135deg, #ff4e8a, #ff9a9e);
     height: 100vh;
+    overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
 }
 
 /* Card */
 .card {
     background: white;
-    padding: 40px 30px;
+    padding: 35px 25px;
     border-radius: 20px;
     text-align: center;
     box-shadow: 0 15px 40px rgba(0,0,0,0.3);
     width: 90%;
-    max-width: 350px;
+    max-width: 380px;
     position: relative;
-    animation: fadeIn 1.5s ease-in-out;
+    z-index: 10;
 }
 
 h1 {
-    color: #ff4e8a;
-    font-size: 1.8rem;
+    color: #ff1e63;
+    font-size: 1.6rem;
+}
+
+.marathi {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #444;
+    font-weight: 500;
 }
 
 /* Buttons */
@@ -49,8 +56,8 @@ button {
     border-radius: 30px;
     font-size: 1rem;
     cursor: pointer;
-    transition: 0.3s;
     position: absolute;
+    transition: 0.3s;
 }
 
 #yesBtn {
@@ -65,14 +72,14 @@ button {
 }
 
 #noBtn {
-    background: #888;
+    background: gray;
     color: white;
     left: 60%;
 }
 
-/* Ring animation */
+/* Ring */
 .ring {
-    font-size: 80px;
+    font-size: 70px;
     position: absolute;
     top: -100px;
     left: 50%;
@@ -86,46 +93,40 @@ button {
 
 @keyframes dropRing {
     0% { top: -100px; opacity: 0; }
-    50% { opacity: 1; }
-    100% { top: 50px; opacity: 1; }
+    100% { top: 20px; opacity: 1; }
 }
 
-/* Floating hearts */
-.heart {
+/* Balloons */
+.balloon {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    background: red;
-    transform: rotate(45deg);
-    animation: float 6s linear infinite;
-}
-
-.heart::before,
-.heart::after {
-    content: "";
-    width: 20px;
-    height: 20px;
-    background: red;
+    bottom: -150px;
+    width: 40px;
+    height: 50px;
     border-radius: 50%;
-    position: absolute;
+    animation: floatUp linear infinite;
 }
 
-.heart::before { top: -10px; left: 0; }
-.heart::after { left: -10px; top: 0; }
+.balloon::after {
+    content: "";
+    position: absolute;
+    width: 2px;
+    height: 40px;
+    background: #555;
+    top: 50px;
+    left: 50%;
+}
 
-@keyframes float {
-    0% { transform: translateY(100vh) rotate(45deg); opacity: 1; }
-    100% { transform: translateY(-10vh) rotate(45deg); opacity: 0; }
+@keyframes floatUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-120vh); }
 }
 
 /* Confetti */
 .confetti {
     position: fixed;
-    width: 10px;
-    height: 10px;
-    background-color: red;
+    width: 8px;
+    height: 8px;
     top: 0;
-    opacity: 0.8;
     animation: fall 3s linear forwards;
 }
 
@@ -135,24 +136,26 @@ button {
         opacity: 0;
     }
 }
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-}
 </style>
 </head>
 
 <body>
 
-<!-- Background Music -->
+<!-- Romantic Music -->
 <audio autoplay loop>
     <source src="https://www.bensound.com/bensound-music/bensound-romantic.mp3" type="audio/mp3">
 </audio>
 
 <div class="card">
     <div class="ring" id="ring">💍</div>
-    <h1>Will You Be My Valentine? 💖</h1>
+
+    <h1>Neha 💖<br>Will You Be My Valentine?</h1>
+
+    <div class="marathi">
+        "सात जन्माचे वचन नाही देत बसणार,  
+        पण या जन्मात मरेपर्यंत साथ नक्कीच देणार!  
+        हॅप्पी व्हॅलेंटाईन डे! ❤️"
+    </div>
 
     <div class="buttons">
         <button id="yesBtn">Yes 💘</button>
@@ -165,60 +168,53 @@ const noBtn = document.getElementById("noBtn");
 const yesBtn = document.getElementById("yesBtn");
 const ring = document.getElementById("ring");
 
-/* Move No Button (Desktop + Mobile) */
-function moveNoButton() {
+/* Move No Button */
+function moveNo() {
     const card = document.querySelector(".card");
     const maxX = card.clientWidth - noBtn.offsetWidth;
     const maxY = card.clientHeight - noBtn.offsetHeight;
 
-    const randomX = Math.random() * maxX;
-    const randomY = Math.random() * maxY;
-
-    noBtn.style.left = randomX + "px";
-    noBtn.style.top = randomY + "px";
+    noBtn.style.left = Math.random() * maxX + "px";
+    noBtn.style.top = Math.random() * maxY + "px";
 }
+noBtn.addEventListener("mouseover", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
 
-noBtn.addEventListener("mouseover", moveNoButton);
-noBtn.addEventListener("touchstart", moveNoButton);
-
-/* Yes Click Event */
+/* Yes Click */
 yesBtn.addEventListener("click", function() {
-
-    // Ring animation
     ring.classList.add("show-ring");
 
-    // Confetti
     for (let i = 0; i < 80; i++) {
         let confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * 100 + "vw";
-        confetti.style.backgroundColor =
-            ["#ff4e8a", "#ffd700", "#ff1e63", "#ff9a9e"][Math.floor(Math.random()*4)];
+        confetti.style.background =
+            ["#ff4e8a","#ffd700","#ff1e63","#ff9a9e"][Math.floor(Math.random()*4)];
         confetti.style.animationDuration = (Math.random()*2 + 2) + "s";
         document.body.appendChild(confetti);
-
         setTimeout(() => confetti.remove(), 3000);
     }
 
     setTimeout(() => {
-        alert("Yessss!!! 💖 You just made me the happiest person alive! 💍✨");
-    }, 1500);
+        alert("Neha 💖 You just made me the happiest person alive! 💍✨");
+    }, 1200);
 });
 
-/* Floating hearts */
-function createHeart() {
-    const heart = document.createElement("div");
-    heart.classList.add("heart");
-    heart.style.left = Math.random() * 100 + "vw";
-    heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
-    document.body.appendChild(heart);
+/* Generate Balloons */
+function createBalloon() {
+    const balloon = document.createElement("div");
+    balloon.classList.add("balloon");
 
-    setTimeout(() => {
-        heart.remove();
-    }, 6000);
+    const colors = ["#ff4e8a","#ffd700","#00c3ff","#ff1e63","#7bed9f"];
+    balloon.style.background = colors[Math.floor(Math.random()*colors.length)];
+    balloon.style.left = Math.random() * 100 + "vw";
+    balloon.style.animationDuration = (Math.random()*3 + 5) + "s";
+
+    document.body.appendChild(balloon);
+
+    setTimeout(() => balloon.remove(), 8000);
 }
-
-setInterval(createHeart, 300);
+setInterval(createBalloon, 800);
 </script>
 
 </body>
